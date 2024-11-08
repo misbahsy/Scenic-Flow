@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"><head><!--remix-island-start--><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta property="og:type" content="object"/><meta property="og:site_name" content="bolt.new"/><meta property="og:title" content="bolt.new project"/><meta property="og:image" content="https://social-img.staticblitz.com/bolt-projects/sb1-dgxech"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="bolt.new project"/><meta name="twitter:description" content="Prompt, run, edit &amp; deploy web apps"/><meta name="twitter:image" content="https://social-img.staticblitz.com/bolt-projects/sb1-dgxech"/><meta name="twitter:site" content="@StackBlitz"/><link rel="stylesheet" href="/assets/root-DBNBAUOt.css"/><link rel="icon" href="/favicon.svg" type="image/svg+xml"/><link rel="stylesheet" href="/assets/ReactToastify-CYivYX3d.css"/><link rel="stylesheet" href="/assets/tailwind-compat-CC20SAMN.css"/><link rel="stylesheet" href="/assets/index-BC2pY_Cu.css"/><link rel="stylesheet" href="/assets/xterm-lQO2bNqs.css"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"/><link rel="stylesheet" href="/assets/_index-DOiDhxUe.css"/><script>setTutorialKitTheme();
+
+function setTutorialKitTheme() {
+  let theme = localStorage.getItem('bolt_theme');
+
+  if (!theme) {
+    theme = "dark";
+  } else if (theme === 'system') {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    theme =  prefersDark ? 'dark' : 'light';
+  }
+
+  document.querySelector('html')?.setAttribute('data-theme', theme);
+}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=AW-16735431429"></script><script>window.dataLayer = window.dataLayer || [];
+
+function gtag() {
+  dataLayer.push(arguments);
+}
+
+gtag('js', new Date());
+gtag('config', 'AW-16735431429');</script><!--remix-island-end--></head><body><div id="root" class="w-full h-full"><div class="flex flex-col h-full w-full bg-bolt-elements-background-depth-1"><header class="flex select-none selection-accent items-center bg-bolt-elements-background-depth-1 pl-5 pr-4 border-b h-[var(--header-height)] border-transparent"><div class="flex grow-1 basis-60 items-center gap-2 z-logo text-bolt-elements-textPrimary cursor-pointer"><a href="/" class="text-2xl font-semibold text-accent flex items-center"><span class="i-bolt:logos-bolt?mask w-[46px] inline-block"></span></a></div><div class="flex-1 select-text px-4 text-sm text-center text-bolt-elements-textPrimary"></div></header></div><script>((STORAGE_KEY2, restoreKey) => {
+    if (!window.history.state || !window.history.state.key) {
+      let key2 = Math.random().toString(32).slice(2);
+      window.history.replaceState({
+        key: key2
+      }, "");
+    }
+    try {
+      let positions = JSON.parse(sessionStorage.getItem(STORAGE_KEY2) || "{}");
+      let storedY = positions[restoreKey || window.history.state.key];
+      if (typeof storedY === "number") {
+        window.scrollTo(0, storedY);
+      }
+    } catch (error) {
+      console.error(error);
+      sessionStorage.removeItem(STORAGE_KEY2);
+    }
+  })("positions", null)</script><link rel="modulepreload" href="/assets/manifest-28218037.js"/><link rel="modulepreload" href="/assets/entry.client-Cbkoy4E7.js"/><link rel="modulepreload" href="/assets/index-fw5NnR3n.js"/><link rel="modulepreload" href="/assets/components-B64jh5hJ.js"/><link rel="modulepreload" href="/assets/stripIndent-YObSZ0C4.js"/><link rel="modulepreload" href="/assets/analytics-99_lWGz8.js"/><link rel="modulepreload" href="/assets/root-mbF2kaOb.js"/><link rel="modulepreload" href="/assets/_index-BNAyAWbJ.js"/><link rel="modulepreload" href="/assets/login-nmFSgkQU.js"/><link rel="modulepreload" href="/assets/LoadingDots-C83QcpuT.js"/><link rel="modulepreload" href="/assets/~._slug-B7IlNGGC.js"/><script>window.__remixContext = {"basename":"/","future":{"v3_fetcherPersist":true,"v3_relativeSplatPath":true,"v3_throwAbortReason":true,"v3_singleFetch":false,"v3_lazyRouteDiscovery":false,"unstable_optimizeDeps":false},"isSpaMode":false,"state":{"loaderData":{"routes/~.$slug":{"slug":"sb1-dgxech","projectInfo":{"title":"bolt.new project","description":"Prompt, run, edit \u0026 deploy web apps"},"loggedIn":true,"user":{"username":"misbahsy","name":null,"email":"menloparklabai@gmail.com","avatar":"https://ghavatars.staticblitz.com/misbahsy.png","membershipLevel":2,"teamsPlan":false,"totalBoltTokenPurchases":0,"subscription":{"currentPeriodStart":1730417115000,"currentPeriodEnd":1733009115000}},"tokenStats":{"totalToday":0,"totalThisMonth":3845884,"maxPerDay":26000000,"maxPerMonth":26000000,"nextTier":{"type":"pro","limits":{"perDay":55000000,"perMonth":55000000},"level":3},"overflow":{"available":0,"used":0},"billingPeriod":{"from":1730417115000,"to":1733009115000}}},"root":null},"actionData":null,"errors":null}};</script><script type="module" async="">import "/assets/manifest-28218037.js";
+import * as route0 from "/assets/root-mbF2kaOb.js";
+import * as route1 from "/assets/~._slug-B7IlNGGC.js";
+
+window.__remixRouteModules = {"root":route0,"routes/~.$slug":route1};
+
+import("/assets/entry.client-Cbkoy4E7.js");</script></div></body></html>
