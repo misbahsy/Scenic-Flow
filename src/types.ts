@@ -1,4 +1,4 @@
-export type SceneType = 'text' | 'image';
+export type SceneType = 'text' | 'image' | 'video';
 
 export type AnimationCategory = 
   | 'Fade'
@@ -84,4 +84,15 @@ interface ImageScene extends BaseScene {
   opacity: number;
 }
 
-export type Scene = TextScene | ImageScene;
+// Add this new interface
+interface VideoScene extends BaseScene {
+  type: 'video';
+  file?: File;
+  scale: number;
+  opacity: number;
+  volume: number;  // New property for video
+  loop: boolean;   // New property for video
+}
+
+// Update the Scene type to include VideoScene
+export type Scene = TextScene | ImageScene | VideoScene;

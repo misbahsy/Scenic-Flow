@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X, Save, AlertCircle } from 'lucide-react';
 import { Scene } from '../types';
 import { VideoPreview } from './VideoPreview';
@@ -26,7 +26,65 @@ export function MoviePreviewModal({
   const [isExporting, setIsExporting] = useState(false);
   const [exportProgress, setExportProgress] = useState(0);
   const [exportError, setExportError] = useState<string | null>(null);
-  const previewRef = React.useRef<HTMLCanvasElement>(null);
+  const previewRef = useRef<HTMLCanvasElement>(null);
+  const [mediaLoaded, setMediaLoaded] = useState(false);
+
+  // Preload media for current scene
+  useEffect(() => {
+    const currentSceneData = scenes[currentScene];
+    if (!currentSceneData) return;
+
+    if (currentSceneData.type === 'text') {
+      setMediaLoaded(true);
+      return;
+    }
+
+    if (!currentSceneData.file) {
+      setMediaLoaded(true);
+      return;
+    }
+
+    setMediaLoaded(false);
+
+    if (currentSceneData.type === 'image') {
+      const img = new Image();
+      const objectUrl = URL.createObjectURL(currentSceneData.file);
+      
+      img.onload = () => {
+        setMediaLoaded(true);
+        URL.revokeObjectURL(objectUrl);
+      };
+      
+      img.src = objectUrl;
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+
+    if (currentSceneData.type === 'video') {
+      const video = document.createElement('video');
+      const objectUrl = URL.createObjectURL(currentSceneData.file);
+      
+      video.onloadedmetadata = () => {
+        setMediaLoaded(true);
+      };
+      
+      video.src = objectUrl;
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+  }, [currentScene, scenes]);
+
+  // Scene transition timer
+  useEffect(() => {
+    if (isPlaying && currentScene < scenes.length - 1 && mediaLoaded) {
+      const scene = scenes[currentScene];
+      const duration = scene.durationIn + scene.durationStay + scene.durationOut;
+      
+      const timer = setTimeout(() => {
+        onSceneComplete();
+      }, duration);
+
+      return () => clearTimeout(timer);
+    }
+  }, [currentScene, scenes, isPlaying, onSceneComplete, mediaLoaded]);
 
   const handleExport = async () => {
     if (!previewRef.current || isExporting) return;
@@ -69,7 +127,7 @@ export function MoviePreviewModal({
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-900 rounded-lg w-[90vw] md:w-[80vw] h-[90vh] md:h-[80vh] flex flex-col max-h-screen">
+      <div className="bg-gray-900 rounded-lg w-[90vw] md:w-[80vw] h-[90vh] md:h-[80vh] flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-800">
           <h2 className="text-xl font-bold">Movie Preview</h2>

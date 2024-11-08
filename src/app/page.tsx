@@ -15,8 +15,11 @@ export default function Home() {
     const newScene: Scene = {
       id: crypto.randomUUID(),
       type,
-      duration: 2000,
-      animation: 'fade-in',
+      animationIn: 'fade-in',
+      animationOut: 'fade-out', 
+      durationIn: 500,
+      durationStay: 2000,
+      durationOut: 500,
       backgroundColor: '#000000',
       ...(type === 'text' && {
         text: 'New Text Scene',
@@ -24,14 +27,15 @@ export default function Home() {
         color: '#ffffff',
       }),
       ...(type === 'image' && {
-        url: '',
+        file: undefined,
         scale: 1,
         opacity: 1,
       }),
       ...(type === 'video' && {
-        url: '',
+        file: undefined,
+        scale: 1,
+        opacity: 1,
         volume: 1,
-        playbackRate: 1,
         loop: false,
       }),
     } as Scene;
@@ -62,7 +66,9 @@ export default function Home() {
               className={`p-2 cursor-pointer ${selectedScene === index ? 'text-blue-400' : 'text-gray-300'}`}
               onClick={() => setSelectedScene(index)}
             >
-              {scene.type === 'text' ? scene.text : `Scene ${index + 1}`}
+              {scene.type === 'text' ? scene.text : 
+               scene.type === 'video' ? `Video Scene ${index + 1}` :
+               `Scene ${index + 1}`}
             </div>
           ))}
           <button
@@ -77,10 +83,9 @@ export default function Home() {
       {/* Center Panel - Preview */}
       <div className="flex-1 flex flex-col">
         <VideoPreview
-          scenes={scenes}
-          currentScene={selectedScene ?? 0}
+          scene={scenes[selectedScene ?? 0]}
           isPlaying={isPlaying}
-          onPlayPause={() => setIsPlaying(!isPlaying)}
+          onSceneComplete={() => setIsPlaying(false)}
         />
       </div>
 

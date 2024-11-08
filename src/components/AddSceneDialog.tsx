@@ -1,6 +1,5 @@
-import React from 'react';
 import { SceneType } from '../types';
-import { Type, Image } from 'lucide-react';
+import { Type, Image, Video } from 'lucide-react';
 
 interface AddSceneDialogProps {
   onClose: () => void;
@@ -12,7 +11,7 @@ export function AddSceneDialog({ onClose, onAdd }: AddSceneDialogProps) {
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
       <div className="bg-gray-800 rounded-lg p-6 w-96">
         <h2 className="text-xl font-semibold mb-4">Add Scene</h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           <button
             onClick={() => {
               onAdd('text');
@@ -32,6 +31,16 @@ export function AddSceneDialog({ onClose, onAdd }: AddSceneDialogProps) {
           >
             <Image className="w-8 h-8" />
             <span>Image</span>
+          </button>
+          <button
+            onClick={() => {
+              onAdd('video');
+              onClose();
+            }}
+            className="flex flex-col items-center gap-2 p-4 rounded bg-gray-700 hover:bg-gray-600"
+          >
+            <Video className="w-8 h-8" />
+            <span>Video</span>
           </button>
         </div>
       </div>

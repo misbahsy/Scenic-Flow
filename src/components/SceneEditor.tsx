@@ -1,5 +1,6 @@
-import React from 'react';
-import { Scene, ANIMATION_CATEGORIES, AnimationCategory } from '../types';
+import React, { useEffect } from 'react';
+import { Scene, ANIMATION_CATEGORIES } from '../types';
+import { Trash2 } from 'lucide-react';
 
 interface SceneEditorProps {
   scene: Scene;
@@ -7,8 +8,61 @@ interface SceneEditorProps {
 }
 
 export function SceneEditor({ scene, onUpdate }: SceneEditorProps) {
+
+  useEffect(() => {
+    return () => {
+      // Cleanup object URLs when component unmounts
+      if (scene.file) {
+        URL.revokeObjectURL(URL.createObjectURL(scene.file));
+      }
+    };
+  }, [scene.file]);
+
   const handleChange = (changes: Partial<Scene>) => {
     onUpdate({ ...scene, ...changes });
+  };
+
+  const renderMediaPreview = () => {
+    if (!scene.file) return null;
+
+    if (scene.type === 'image') {
+      return (
+        <div className="relative mt-2 mb-4">
+          <img 
+            src={URL.createObjectURL(scene.file)} 
+            alt="Preview"
+            className="w-full h-40 object-contain bg-gray-900 rounded"
+          />
+          <button
+            onClick={() => handleChange({ file: undefined })}
+            className="absolute top-2 right-2 p-1 bg-red-500/80 hover:bg-red-500 rounded-full"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </div>
+      );
+    }
+
+    if (scene.type === 'video') {
+      return (
+        <div className="relative mt-2 mb-4">
+          <video 
+            src={URL.createObjectURL(scene.file)}
+            className="w-full h-40 object-contain bg-gray-900 rounded"
+            controls
+            muted
+          />
+          <button
+            onClick={() => handleChange({ file: undefined })}
+            className="absolute top-2 right-2 p-1 bg-red-500/80 hover:bg-red-500 rounded-full"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </div>
+      );
+    }
+
+    return null;
   };
 
   return (
@@ -16,12 +70,36 @@ export function SceneEditor({ scene, onUpdate }: SceneEditorProps) {
       <h3 className="text-lg font-bold mb-4">Scene Settings</h3>
       
       <div className="space-y-4">
+        {/* Media Upload Section for Image and Video */}
+        {(scene.type === 'image' || scene.type === 'video') && (
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              {scene.type === 'image' ? 'Image' : 'Video'}
+            </label>
+            {!scene.file ? (
+              <input
+                type="file"
+                accept={scene.type === 'image' ? 'image/*' : 'video/*'}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    handleChange({ file });
+                  }
+                }}
+                className="w-full bg-gray-700 rounded px-3 py-2 text-sm"
+              />
+            ) : (
+              renderMediaPreview()
+            )}
+          </div>
+        )}
+
         {/* Animation In */}
         <div>
           <label className="block text-sm font-medium mb-1">Animation In</label>
           <select
             value={scene.animationIn}
-            onChange={(e) => handleChange({ animationIn: e.target.value })}
+            onChange={(e) => handleChange({ animationIn: e.target.value as Scene['animationIn'] })}
             className="w-full bg-gray-700 rounded px-3 py-2"
           >
             {Object.entries(ANIMATION_CATEGORIES).map(([category, animations]) => (
@@ -41,7 +119,7 @@ export function SceneEditor({ scene, onUpdate }: SceneEditorProps) {
           <label className="block text-sm font-medium mb-1">Animation Out</label>
           <select
             value={scene.animationOut}
-            onChange={(e) => handleChange({ animationOut: e.target.value })}
+            onChange={(e) => handleChange({ animationOut: e.target.value as Scene['animationOut'] })}
             className="w-full bg-gray-700 rounded px-3 py-2"
           >
             {Object.entries(ANIMATION_CATEGORIES).map(([category, animations]) => (
@@ -127,22 +205,60 @@ export function SceneEditor({ scene, onUpdate }: SceneEditorProps) {
           </>
         )}
 
-        {/* Image-specific settings */}
-        {scene.type === 'image' && !scene.file && (
-          <div>
-            <label className="block text-sm font-medium mb-1">Image</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  handleChange({ file });
-                }
-              }}
-              className="w-full bg-gray-700 rounded px-3 py-2"
-            />
-          </div>
+        {/* Image/Video shared settings */}
+        {(scene.type === 'image' || scene.type === 'video') && (
+          <>
+            <div>
+              <label className="block text-sm font-medium mb-1">Scale</label>
+              <input
+                type="number"
+                value={scene.scale}
+                onChange={(e) => handleChange({ scale: Number(e.target.value) })}
+                className="w-full bg-gray-700 rounded px-3 py-2"
+                min="0.1"
+                step="0.1"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Opacity</label>
+              <input
+                type="number"
+                value={scene.opacity}
+                onChange={(e) => handleChange({ opacity: Number(e.target.value) })}
+                className="w-full bg-gray-700 rounded px-3 py-2"
+                min="0"
+                max="1"
+                step="0.1"
+              />
+            </div>
+          </>
+        )}
+
+        {/* Video-specific settings */}
+        {scene.type === 'video' && (
+          <>
+            <div>
+              <label className="block text-sm font-medium mb-1">Volume</label>
+              <input
+                type="number"
+                value={scene.volume}
+                onChange={(e) => handleChange({ volume: Number(e.target.value) })}
+                className="w-full bg-gray-700 rounded px-3 py-2"
+                min="0"
+                max="1"
+                step="0.1"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <label className="text-sm font-medium">Loop</label>
+              <input
+                type="checkbox"
+                checked={scene.loop}
+                onChange={(e) => handleChange({ loop: e.target.checked })}
+                className="bg-gray-700 rounded"
+              />
+            </div>
+          </>
         )}
 
         {/* Background Color */}

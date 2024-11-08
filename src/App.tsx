@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { Plus, Type, Image, Settings, Trash2 } from 'lucide-react';
+import { Plus, Type, Image, Video, Settings, Trash2 } from 'lucide-react';
 import { Scene, SceneType } from './types';
 import { VideoPreview } from './components/VideoPreview';
 import { SceneEditor } from './components/SceneEditor';
@@ -34,7 +34,7 @@ export function App() {
   const handleAIGenerate = (apiScenes: any[]) => {
     const convertedScenes = apiScenes.map(scene => ({
       id: crypto.randomUUID(),
-      type: scene.scene_type as 'text' | 'image',
+      type: scene.scene_type as 'text' | 'image' | 'video',
       animationIn: scene.animation_in,
       animationOut: scene.animation_out,
       durationIn: scene.duration_in,
@@ -48,14 +48,16 @@ export function App() {
       } : {
         scale: 1,
         opacity: 1,
+        ...(scene.scene_type === 'video' && {
+          volume: 1,
+          loop: false
+        })
       })
     }));
 
     setScenes(convertedScenes);
     setShowEditor(true);
   };
-
-  // Rest of your component logic...
 
   if (!showEditor) {
     return (
@@ -81,10 +83,16 @@ export function App() {
         text: 'New Text Scene',
         fontSize: 48,
         color: '#ffffff',
-      } : {
+      } : type === 'image' ? {
         type: 'image' as const,
         scale: 1,
         opacity: 1,
+      } : {
+        type: 'video' as const,
+        scale: 1,
+        opacity: 1,
+        volume: 1,
+        loop: false,
       })
     };
 
@@ -100,24 +108,43 @@ export function App() {
     setScenes(newScenes);
   };
 
-  // const handleMovieSceneComplete = useCallback(() => {
-  //   setCurrentMovieScene(prev => {
-  //     if (prev < scenes.length - 1) {
-  //       return prev + 1;
-  //     }
-  //     setIsMoviePlaying(false);
-  //     return 0;
-  //   });
-  // }, [scenes.length]);
-
   const handleExportMovie = async () => {
     if (!canvasRef.current || scenes.length === 0) return;
 
     const canvas = canvasRef.current;
     const stream = canvas.captureStream(30);
-    const mediaRecorder = new MediaRecorder(stream, {
+    
+    // Create an audio context and destination for video audio
+    const audioContext = new AudioContext();
+    const audioDestination = audioContext.createMediaStreamDestination();
+    
+    // Create audio nodes for each video scene
+    const videoAudioNodes = scenes
+      .filter(scene => scene.type === 'video')
+      .map(scene => {
+        if (scene.type === 'video' && scene.file) {
+          const video = document.createElement('video');
+          video.src = URL.createObjectURL(scene.file);
+          const source = audioContext.createMediaElementSource(video);
+          const gainNode = audioContext.createGain();
+          gainNode.gain.value = scene.volume;
+          source.connect(gainNode);
+          gainNode.connect(audioDestination);
+          return { video, source, gainNode };
+        }
+        return null;
+      })
+      .filter(Boolean);
+
+    // Combine video and audio streams
+    const combinedStream = new MediaStream([
+      ...stream.getVideoTracks(),
+      ...audioDestination.stream.getAudioTracks()
+    ]);
+
+    const mediaRecorder = new MediaRecorder(combinedStream, {
       mimeType: 'video/webm;codecs=vp8,opus',
-      videoBitsPerSecond: 5000000 // 5 Mbps
+      videoBitsPerSecond: 5000000
     });
 
     const chunks: Blob[] = [];
@@ -208,6 +235,13 @@ export function App() {
                   <Image className="w-4 h-4" />
                   Image Scene
                 </button>
+                <button
+                  onClick={() => handleAddScene('video')}
+                  className="w-full px-4 py-2 hover:bg-gray-700 flex items-center gap-2"
+                >
+                  <Video className="w-4 h-4" />
+                  Video Scene
+                </button>
               </div>
             )}
           </div>
@@ -222,7 +256,11 @@ export function App() {
               onClick={() => setSelectedScene(index)}
             >
               <div className="flex items-center justify-between">
-                <span>{scene.type === 'text' ? scene.text : `Scene ${index + 1}`}</span>
+                <span>
+                  {scene.type === 'text' ? scene.text : 
+                   scene.type === 'video' ? `Video ${index + 1}` :
+                   `Scene ${index + 1}`}
+                </span>
                 <div className="flex gap-1">
                   <button
                     onClick={(e) => {
