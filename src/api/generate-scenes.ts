@@ -1,11 +1,11 @@
 const BASE_PATH = import.meta.env.VITE_LANGFLOW_BASE_PATH;
 const API_KEY = import.meta.env.VITE_ASTRA_LANGFLOW_TOKEN;
 
-// ... rest of the code remains the same ...
 
 export async function generateScenes(topic: string) {
+    const fullPath = `${BASE_PATH.startsWith('/') ? BASE_PATH : '/api/langflow' + BASE_PATH}`;
     try {
-      const response = await fetch(`${BASE_PATH}?stream=false`, {
+      const response = await fetch(`${fullPath}?stream=false`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
