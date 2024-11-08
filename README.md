@@ -147,7 +147,7 @@ To learn more about the technologies used in this project, check out the followi
 
 - [Vite Documentation](https://vitejs.dev/guide/)
 - [React Documentation](https://reactjs.org/docs/getting-started.html)
-- [Langflow Documentation](https://astra.datastax.com/docs/langflow)
+- [Langflow Documentation](https://docs.langflow.org/)
 - [TypeScript Documentation](https://www.typescriptlang.org/docs/)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 
@@ -156,5 +156,5 @@ To learn more about the technologies used in this project, check out the followi
 Deploy your application using your preferred hosting platform. For optimal performance and ease of deployment, consider using platforms like [Vercel](https://vercel.com/) or [Netlify](https://www.netlify.com/).
 
 For more details on deploying with Vite, refer to the [Vite Deployment Guide](https://vitejs.dev/guide/static-deploy.html).
-# End of Selection
+
 ```
