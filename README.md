@@ -1,4 +1,4 @@
-# 🎬 SceneFlow
+# 🎬 ScenicFlow
 
 A web-based scene/slide creator built with Vite and React that allows you to create engaging video presentations. Create slides and scenes manually by adding text and images, or let AI automatically generate scenes for you using Langflow integration.
 
