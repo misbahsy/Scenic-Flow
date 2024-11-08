@@ -10,7 +10,7 @@ export function applyAnimation(
   direction: 'in' | 'out',
   progress: number,
   draw: DrawFunction,
-  text?: string,
+  // text?: string,
   font?: string // New parameter for font settings
 ) {
   ctx.save();
@@ -184,89 +184,89 @@ export function applyAnimation(
       ctx.translate(-centerX, -centerY);
       break;
 
-    // Text Animations
-    case 'typewriter':
-      if (text) {
-        const length = Math.floor(text.length * p);
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillStyle = ctx.fillStyle || '#ffffff'; // Ensure there's a default color
-        const visibleText = text.slice(0, length);
-        ctx.fillText(visibleText, centerX, centerY);
-        return; // Important: return here to prevent double drawing
-      }
-      break;
+    // // Text Animations
+    // case 'typewriter':
+    //   if (text) {
+    //     const length = Math.floor(text.length * p);
+    //     ctx.textAlign = 'center';
+    //     ctx.textBaseline = 'middle';
+    //     ctx.fillStyle = ctx.fillStyle || '#ffffff'; // Ensure there's a default color
+    //     const visibleText = text.slice(0, length);
+    //     ctx.fillText(visibleText, centerX, centerY);
+    //     return; // Important: return here to prevent double drawing
+    //   }
+    //   break;
 
-    case 'letter-by-letter':
-      if (text) {
-        const letters = text.split('');
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillStyle = ctx.fillStyle || '#ffffff';
+    // case 'letter-by-letter':
+    //   if (text) {
+    //     const letters = text.split('');
+    //     ctx.textAlign = 'center';
+    //     ctx.textBaseline = 'middle';
+    //     ctx.fillStyle = ctx.fillStyle || '#ffffff';
         
-        // Calculate total width for centering
-        const totalWidth = ctx.measureText(text).width;
-        const startX = centerX - totalWidth / 2;
+    //     // Calculate total width for centering
+    //     const totalWidth = ctx.measureText(text).width;
+    //     const startX = centerX - totalWidth / 2;
         
-        letters.forEach((letter, index) => {
-          const letterProgress = (p * letters.length) - index;
-          if (letterProgress > 0) {
-            const alpha = Math.min(letterProgress, 1);
-            const originalAlpha = ctx.globalAlpha;
-            ctx.globalAlpha = alpha;
+    //     letters.forEach((letter, index) => {
+    //       const letterProgress = (p * letters.length) - index;
+    //       if (letterProgress > 0) {
+    //         const alpha = Math.min(letterProgress, 1);
+    //         const originalAlpha = ctx.globalAlpha;
+    //         ctx.globalAlpha = alpha;
             
-            // Calculate position for each letter
-            const letterWidth = ctx.measureText(letters.slice(0, index).join('')).width;
-            const letterX = startX + letterWidth;
-            ctx.fillText(letter, letterX, centerY);
+    //         // Calculate position for each letter
+    //         const letterWidth = ctx.measureText(letters.slice(0, index).join('')).width;
+    //         const letterX = startX + letterWidth;
+    //         ctx.fillText(letter, letterX, centerY);
             
-            ctx.globalAlpha = originalAlpha;
-          }
-        });
-        return; // Important: return here to prevent double drawing
-      }
-      break;
+    //         ctx.globalAlpha = originalAlpha;
+    //       }
+    //     });
+    //     return; // Important: return here to prevent double drawing
+    //   }
+    //   break;
 
-    case 'word-by-word':
-      if (text) {
-        const words = text.split(' ');
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillStyle = ctx.fillStyle || '#ffffff';
+    // case 'word-by-word':
+    //   if (text) {
+    //     const words = text.split(' ');
+    //     ctx.textAlign = 'center';
+    //     ctx.textBaseline = 'middle';
+    //     ctx.fillStyle = ctx.fillStyle || '#ffffff';
         
-        // Calculate line height based on font size
-        const fontSizeMatch = ctx.font.match(/(\d+)px/);
-        const fontSize = fontSizeMatch ? parseInt(fontSizeMatch[1]) : 30; // Default to 30px if not set
-        const lineHeight = fontSize * 1.2;
+    //     // Calculate line height based on font size
+    //     const fontSizeMatch = ctx.font.match(/(\d+)px/);
+    //     const fontSize = fontSizeMatch ? parseInt(fontSizeMatch[1]) : 30; // Default to 30px if not set
+    //     const lineHeight = fontSize * 1.2;
         
-        // Center vertically based on total height
-        const totalHeight = words.length * lineHeight;
-        const startY = centerY - (totalHeight / 2) + (lineHeight / 2);
+    //     // Center vertically based on total height
+    //     const totalHeight = words.length * lineHeight;
+    //     const startY = centerY - (totalHeight / 2) + (lineHeight / 2);
         
-        words.forEach((word, index) => {
-          const wordProgress = (p * words.length) - index;
-          if (wordProgress > 0) {
-            const alpha = Math.min(wordProgress, 1);
-            const originalAlpha = ctx.globalAlpha;
-            ctx.globalAlpha = alpha;
+    //     words.forEach((word, index) => {
+    //       const wordProgress = (p * words.length) - index;
+    //       if (wordProgress > 0) {
+    //         const alpha = Math.min(wordProgress, 1);
+    //         const originalAlpha = ctx.globalAlpha;
+    //         ctx.globalAlpha = alpha;
             
-            // Position each word on a new line
-            ctx.fillText(word, centerX, startY + (index * lineHeight));
+    //         // Position each word on a new line
+    //         ctx.fillText(word, centerX, startY + (index * lineHeight));
             
-            ctx.globalAlpha = originalAlpha;
-          }
-        });
-        return; // Important: return here to prevent double drawing
-      }
-      break;
+    //         ctx.globalAlpha = originalAlpha;
+    //       }
+    //     });
+    //     return; // Important: return here to prevent double drawing
+    //   }
+    //   break;
 
 
-    case 'glitch':
-      if (Math.random() > 0.9) {
-        ctx.translate(Math.random() * 10 - 5, Math.random() * 10 - 5);
-        ctx.fillStyle = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`;
-      }
-      break;
+    // case 'glitch':
+    //   if (Math.random() > 0.9) {
+    //     ctx.translate(Math.random() * 10 - 5, Math.random() * 10 - 5);
+    //     ctx.fillStyle = `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`;
+    //   }
+    //   break;
   }
 
   draw();

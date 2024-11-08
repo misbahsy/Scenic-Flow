@@ -103,7 +103,7 @@ export const VideoPreview = forwardRef<HTMLCanvasElement, VideoPreviewProps>(
         }
 
         // Define font based on scene settings
-        const font = scene.type === 'text' ? `${scene.fontSize}px Arial` : undefined;
+        // const font = scene.type === 'text' ? `${scene.fontSize}px Arial` : undefined;
 
         // Apply animation
         applyAnimation(
@@ -126,7 +126,7 @@ export const VideoPreview = forwardRef<HTMLCanvasElement, VideoPreviewProps>(
             }
           },
           scene.type === 'text' ? scene.text : undefined,
-          font // Pass the font parameter
+          // font // Pass the font parameter
         );
 
         if (isPlaying) {
