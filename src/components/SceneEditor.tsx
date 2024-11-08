@@ -1,5 +1,5 @@
-import React from 'react';
-import { Scene, ANIMATION_CATEGORIES, AnimationCategory } from '../types';
+// import React from 'react';
+import { Scene, ANIMATION_CATEGORIES } from '../types';
 
 interface SceneEditorProps {
   scene: Scene;
@@ -8,7 +8,7 @@ interface SceneEditorProps {
 
 export function SceneEditor({ scene, onUpdate }: SceneEditorProps) {
   const handleChange = (changes: Partial<Scene>) => {
-    onUpdate({ ...scene, ...changes });
+    onUpdate({ ...scene, ...changes } as Scene); // Type assertion to Scene
   };
 
   return (
@@ -21,7 +21,7 @@ export function SceneEditor({ scene, onUpdate }: SceneEditorProps) {
           <label className="block text-sm font-medium mb-1">Animation In</label>
           <select
             value={scene.animationIn}
-            onChange={(e) => handleChange({ animationIn: e.target.value })}
+            onChange={(e) => handleChange({ animationIn: e.target.value as Scene['animationIn'] })}
             className="w-full bg-gray-700 rounded px-3 py-2"
           >
             {Object.entries(ANIMATION_CATEGORIES).map(([category, animations]) => (
@@ -41,7 +41,7 @@ export function SceneEditor({ scene, onUpdate }: SceneEditorProps) {
           <label className="block text-sm font-medium mb-1">Animation Out</label>
           <select
             value={scene.animationOut}
-            onChange={(e) => handleChange({ animationOut: e.target.value })}
+            onChange={(e) => handleChange({ animationOut: e.target.value as Scene['animationOut'] })}
             className="w-full bg-gray-700 rounded px-3 py-2"
           >
             {Object.entries(ANIMATION_CATEGORIES).map(([category, animations]) => (

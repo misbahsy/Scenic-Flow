@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { SceneType } from '../types';
 import { Type, Image } from 'lucide-react';
 

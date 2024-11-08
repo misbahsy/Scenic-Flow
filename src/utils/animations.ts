@@ -2,7 +2,7 @@ import { AnimationType } from '../types';
 
 type DrawFunction = () => void;
 
-const easeInOut = (t: number) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+// const easeInOut = (t: number) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 
 export function applyAnimation(
   ctx: CanvasRenderingContext2D,
@@ -10,7 +10,8 @@ export function applyAnimation(
   direction: 'in' | 'out',
   progress: number,
   draw: DrawFunction,
-  text?: string
+  text?: string,
+  font?: string // New parameter for font settings
 ) {
   ctx.save();
   
@@ -18,6 +19,11 @@ export function applyAnimation(
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
   const p = direction === 'in' ? progress : 1 - progress;
+
+  // Set font if provided and animation is text-based
+  if (font && ['typewriter', 'letter-by-letter', 'word-by-word'].includes(type)) {
+    ctx.font = font;
+  }
 
   switch (type) {
     // Fade Animations
@@ -178,8 +184,6 @@ export function applyAnimation(
       ctx.translate(-centerX, -centerY);
       break;
 
-    // ... existing code ...
-
     // Text Animations
     case 'typewriter':
       if (text) {
@@ -231,7 +235,8 @@ export function applyAnimation(
         ctx.fillStyle = ctx.fillStyle || '#ffffff';
         
         // Calculate line height based on font size
-        const fontSize = parseInt(ctx.font);
+        const fontSizeMatch = ctx.font.match(/(\d+)px/);
+        const fontSize = fontSizeMatch ? parseInt(fontSizeMatch[1]) : 30; // Default to 30px if not set
         const lineHeight = fontSize * 1.2;
         
         // Center vertically based on total height

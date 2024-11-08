@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { Plus, Type, Image, Settings, Trash2 } from 'lucide-react';
 import { Scene, SceneType } from './types';
 import { VideoPreview } from './components/VideoPreview';
@@ -17,7 +17,7 @@ export function App() {
   const [showSceneSettings, setShowSceneSettings] = useState(false);
   const [showMoviePreview, setShowMoviePreview] = useState(false);
   const [showEditor, setShowEditor] = useState(false);
-  const addButtonRef = useRef<HTMLDivElement>(null);
+  // const addButtonRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Move useCallback outside of the conditional
@@ -49,13 +49,11 @@ export function App() {
         scale: 1,
         opacity: 1,
       })
-    }));
+    })) as Scene[];
 
     setScenes(convertedScenes);
     setShowEditor(true);
   };
-
-  // Rest of your component logic...
 
   if (!showEditor) {
     return (
@@ -69,7 +67,6 @@ export function App() {
   const handleAddScene = (type: SceneType) => {
     const newScene: Scene = {
       id: crypto.randomUUID(),
-      type,
       animationIn: 'fade-in',
       animationOut: 'fade-out',
       durationIn: 500,

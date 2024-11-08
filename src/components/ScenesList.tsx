@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { Settings, Plus } from 'lucide-react';
 import { Scene } from '../types';
 

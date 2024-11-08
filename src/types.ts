@@ -8,55 +8,49 @@ export type AnimationCategory =
   | 'Dynamic'
   | 'Text';
 
-export type AnimationType = 
-  // Fade Animations
+  export type AnimationType =
   | 'fade-in'
   | 'fade-out'
   | 'fade-up'
   | 'fade-down'
   | 'fade-left'
   | 'fade-right'
-  // Slide Animations
   | 'slide-in'
   | 'slide-out'
   | 'slide-up'
   | 'slide-down'
   | 'slide-left'
   | 'slide-right'
-  // Scale Animations
   | 'grow-in'
   | 'shrink-in'
   | 'zoom-in'
   | 'zoom-out'
   | 'scale-up'
   | 'scale-down'
-  // Rotate Animations
   | 'rotate'
   | 'rotate-left'
   | 'rotate-right'
   | 'flip'
   | 'flip-x'
   | 'flip-y'
-  // Dynamic Animations
   | 'bounce'
   | 'swing'
   | 'shake'
   | 'pulse'
   | 'float'
   | 'wobble'
-  // Text Animations
-  | 'typewriter'
-  | 'letter-by-letter'
-  | 'word-by-word'
-  | 'glitch';
+  // | 'typewriter'          // Added
+  // | 'letter-by-letter'    // Added
+  // | 'word-by-word';       // Added
 
-export const ANIMATION_CATEGORIES: Record<AnimationCategory, AnimationType[]> = {
-  'Fade': ['fade-in', 'fade-out', 'fade-up', 'fade-down', 'fade-left', 'fade-right'],
-  'Slide': ['slide-in', 'slide-out', 'slide-up', 'slide-down', 'slide-left', 'slide-right'],
-  'Scale': ['grow-in', 'shrink-in', 'zoom-in', 'zoom-out', 'scale-up', 'scale-down'],
-  'Rotate': ['rotate', 'rotate-left', 'rotate-right', 'flip', 'flip-x', 'flip-y'],
-  'Dynamic': ['bounce', 'swing', 'shake', 'pulse', 'float', 'wobble'],
-  'Text': ['typewriter', 'letter-by-letter', 'word-by-word', 'glitch']
+export const ANIMATION_CATEGORIES: Record<string, AnimationType[]> = {
+  Fade: ['fade-in', 'fade-out', 'fade-up', 'fade-down', 'fade-left', 'fade-right'],
+  Slide: ['slide-in', 'slide-out', 'slide-up', 'slide-down', 'slide-left', 'slide-right'],
+  Scale: ['grow-in', 'shrink-in', 'zoom-in', 'zoom-out', 'scale-up', 'scale-down'],
+  Rotate: ['rotate', 'rotate-left', 'rotate-right'],
+  Flip: ['flip', 'flip-x', 'flip-y'],
+  Dynamic: ['bounce', 'swing', 'shake', 'pulse', 'float', 'wobble'],
+  // Text: ['typewriter', 'letter-by-letter', 'word-by-word'], // Added Text Animations
 };
 
 interface BaseScene {

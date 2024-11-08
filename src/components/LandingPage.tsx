@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { generateScenes } from '../api/generate-scenes'; // Import the mock API function
 
 interface LandingPageProps {
@@ -14,9 +14,8 @@ export function LandingPage({ onManualSelect, onAIGenerate }: LandingPageProps) 
   const handleAISubmit = async () => {
     setIsLoading(true);
     try {
-      // Call the mock API function directly
       const response = await generateScenes(topic);
-      onAIGenerate(response.scenes);
+      onAIGenerate(response.scenes); // Access the scenes array directly from the parsed response
     } catch (error) {
       console.error('Error generating scenes:', error);
     } finally {

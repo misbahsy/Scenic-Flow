@@ -20,7 +20,7 @@ export function MoviePreviewModal({
   scenes,
   currentScene,
   isPlaying,
-  onExport,
+  // onExport,
   onSceneComplete
 }: MoviePreviewModalProps) {
   const [isExporting, setIsExporting] = useState(false);
