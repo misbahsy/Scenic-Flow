@@ -4,9 +4,5 @@
         "source": "/api/langflow/:path*",
         "destination": "https://api.langflow.astra.datastax.com/:path*"
       }
-    ],
-    "env": {
-      "VITE_ASTRA_LANGFLOW_TOKEN": "@langflow-token",
-      "VITE_LANGFLOW_BASE_PATH": "@langflow-base-path"
-    }
+    ]
   }
