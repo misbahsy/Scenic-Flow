@@ -1,4 +1,4 @@
-# 🎬 ScenicFlow
+# 🎬 ScenicFlow - Powered by Langflow and Groq
 
 A web-based scene/slide creator built with Vite and React that allows you to create engaging video presentations. Create slides and scenes manually by adding text and images, or let AI automatically generate scenes for you using Langflow integration.
 
@@ -70,11 +70,11 @@ Follow these steps to set up the project locally:
 
 Create a `.env` file in the root directory of the project and add the following variables:
 ```env
-VITE_ASTRA_LANGFLOW_TOKEN=your_langflow_api_token
-VITE_LANGFLOW_BASE_PATH=your_langflow_base_path
+VITE_ASTRA_LANGFLOW_TOKEN=AstraCS:xxxx
+VITE_LANGFLOW_BASE_PATH="/api/langflow/lf/xxxxxx-xxxx-xxx-xxxx/api/v1/run/flow-id"
 ```
 
-**Note:** Ensure that `.env` is **not** committed to version control to keep your API tokens secure.
+**Note:** Ensure that VITE_LANGFLOW_BASE_PATH starts with /api/langflow/... which is available from </>API tab at the bottom right of the Langflow UI. Also make sure `.env` is **not** committed to version control to keep your API tokens secure.
 
 ### 4. Import Langflow Flow
 
